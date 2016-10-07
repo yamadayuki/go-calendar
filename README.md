@@ -11,7 +11,7 @@ import (
   "github.com/yamadayuki/calendar"
 )
 
-calendar, err := calendar.Weeks()
+calendar, err := calendar.Month()
 if err == nil {
   fmt.Println(calendar)
 }

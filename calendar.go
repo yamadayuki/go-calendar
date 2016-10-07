@@ -23,12 +23,12 @@ func (week Week) Previous() (previousWeek Week) {
 	return
 }
 
-type Weeks []Week
+type Month []Week
 
 type Calendar struct {
-	Year  int
-	Month time.Month
-	Now   *now.Now
+	Year        int
+	MonthNumber time.Month
+	Now         *now.Now
 }
 
 func (calendar *Calendar) Week() (week Week) {
@@ -41,7 +41,7 @@ func (calendar *Calendar) Week() (week Week) {
 	return
 }
 
-func (calendar *Calendar) Weeks() (weeks Weeks) {
+func (calendar *Calendar) Month() (weeks Month) {
 	beginningOfMonth := calendar.Now.BeginningOfMonth()
 	endOfMonth := calendar.Now.EndOfMonth()
 	week := New(beginningOfMonth).Week()
@@ -57,8 +57,8 @@ func (calendar *Calendar) Weeks() (weeks Weeks) {
 
 func New(t time.Time) *Calendar {
 	return &Calendar{
-		Year:  t.Year(),
-		Month: t.Month(),
-		Now:   now.New(t),
+		Year:        t.Year(),
+		MonthNumber: t.Month(),
+		Now:         now.New(t),
 	}
 }

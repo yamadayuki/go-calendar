@@ -16,7 +16,7 @@ var expectedWeekDays = Week{
 	time.Date(2016, 10, 8, 0, 0, 0, 0, time.UTC),
 }
 
-var expectedWeeks = Weeks{
+var expectedMonth = Month{
 	Week{
 		time.Date(2016, 9, 25, 0, 0, 0, 0, time.UTC),
 		time.Date(2016, 9, 26, 0, 0, 0, 0, time.UTC),
@@ -120,11 +120,11 @@ func TestWeek(t *testing.T) {
 	}
 }
 
-func TestWeeks(t *testing.T) {
+func TestMonth(t *testing.T) {
 	n := time.Date(2016, 10, 7, 17, 51, 49, 123456789, time.UTC)
 
-	weeks := New(n).Weeks()
-	if !reflect.DeepEqual(expectedWeeks, weeks) {
-		t.Errorf("Unexpected Calendar.Weeks(), \n expected %v, \n given %v", expectedWeeks, weeks)
+	weeks := New(n).Month()
+	if !reflect.DeepEqual(expectedMonth, weeks) {
+		t.Errorf("Unexpected Calendar.Month(), \n expected %v, \n given %v", expectedMonth, weeks)
 	}
 }
