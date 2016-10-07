@@ -26,9 +26,17 @@ func (week Week) Previous() (previousWeek Week) {
 type Month []Week
 
 type Calendar struct {
-	Year        int
-	MonthNumber time.Month
-	Now         *now.Now
+	Now *now.Now
+}
+
+func (calendar *Calendar) Next() {
+	newDate := calendar.Now.BeginningOfMonth().AddDate(0, 1, 0)
+	calendar.Now = now.New(newDate)
+}
+
+func (calendar *Calendar) Previous() {
+	newDate := calendar.Now.BeginningOfMonth().AddDate(0, -1, 0)
+	calendar.Now = now.New(newDate)
 }
 
 func (calendar *Calendar) Week() (week Week) {
@@ -41,24 +49,58 @@ func (calendar *Calendar) Week() (week Week) {
 	return
 }
 
-func (calendar *Calendar) Month() (weeks Month) {
+func (calendar *Calendar) NextWeek() (week Week) {
+	newDate := calendar.Now.AddDate(0, 0, 7)
+	calendar.Now = now.New(newDate)
+	defer func() {
+		calendar.Now = now.New(newDate.AddDate(0, 0, -7))
+	}()
+
+	week = calendar.Week()
+	return
+}
+
+func (calendar *Calendar) PreviousWeek() (week Week) {
+	newDate := calendar.Now.AddDate(0, 0, -7)
+	calendar.Now = now.New(newDate)
+	defer func() {
+		calendar.Now = now.New(newDate.AddDate(0, 0, 7))
+	}()
+
+	week = calendar.Week()
+	return
+}
+
+func (calendar *Calendar) Month() (month Month) {
 	beginningOfMonth := calendar.Now.BeginningOfMonth()
 	endOfMonth := calendar.Now.EndOfMonth()
 	week := New(beginningOfMonth).Week()
 	lastWeek := New(endOfMonth).Week()
 
 	for !reflect.DeepEqual(lastWeek, week) {
-		weeks = append(weeks, week)
+		month = append(month, week)
 		week = week.Next()
 	}
-	weeks = append(weeks, lastWeek)
+	month = append(month, lastWeek)
+	return
+}
+
+func (calendar *Calendar) NextMonth() (month Month) {
+	calendar.Next()
+	defer calendar.Previous()
+	month = calendar.Month()
+	return
+}
+
+func (calendar *Calendar) PreviousMonth() (month Month) {
+	calendar.Previous()
+	defer calendar.Next()
+	month = calendar.Month()
 	return
 }
 
 func New(t time.Time) *Calendar {
 	return &Calendar{
-		Year:        t.Year(),
-		MonthNumber: t.Month(),
-		Now:         now.New(t),
+		Now: now.New(t),
 	}
 }
