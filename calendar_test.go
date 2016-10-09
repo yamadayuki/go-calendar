@@ -226,3 +226,18 @@ func TestMonth(t *testing.T) {
 		t.Errorf("Unexpected Calendar.Month(), \n expected %v, \n given %v", expectedMonth, month)
 	}
 }
+
+func TestNextMonth(t *testing.T) {
+	month := New(date).NextMonth()
+	if !reflect.DeepEqual(expectedNextMonth, month) {
+		t.Errorf("Unexpected Calendar.NextMonth(),\n expected %v,\n given %v", expectedNextMonth, month)
+	}
+}
+
+func TestPreviousMonth(t *testing.T) {
+	nextMonthDate := date.AddDate(0, 1, 0)
+	month := New(nextMonthDate).PreviousMonth()
+	if !reflect.DeepEqual(expectedMonth, month) {
+		t.Errorf("Unexpected Calendar.PreviousMonth(),\n expected %v,\n given %v", expectedMonth, month)
+	}
+}

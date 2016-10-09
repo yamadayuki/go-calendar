@@ -7,8 +7,10 @@ import (
 	"github.com/jinzhu/now"
 )
 
+// Week have time.Time data to represent week.
 type Week []time.Time
 
+// Next returns time.Time collection to represent next week.
 func (week Week) Next() (nextWeek Week) {
 	for _, t := range week {
 		nextWeek = append(nextWeek, t.AddDate(0, 0, 7))
@@ -16,6 +18,7 @@ func (week Week) Next() (nextWeek Week) {
 	return
 }
 
+// Previous returns time.Time collection to represent previous week.
 func (week Week) Previous() (previousWeek Week) {
 	for _, t := range week {
 		previousWeek = append(previousWeek, t.AddDate(0, 0, -7))
@@ -23,22 +26,27 @@ func (week Week) Previous() (previousWeek Week) {
 	return
 }
 
+// Month have Week data to represent month.
 type Month []Week
 
+// Calendar have now.Now data.
 type Calendar struct {
 	Now *now.Now
 }
 
+// Next sets new *now.Now for next month.
 func (calendar *Calendar) Next() {
 	newDate := calendar.Now.BeginningOfMonth().AddDate(0, 1, 0)
 	calendar.Now = now.New(newDate)
 }
 
+// Previous sets new *now.Now for previous month.
 func (calendar *Calendar) Previous() {
 	newDate := calendar.Now.BeginningOfMonth().AddDate(0, -1, 0)
 	calendar.Now = now.New(newDate)
 }
 
+// Week returns Week regarding current date.
 func (calendar *Calendar) Week() (week Week) {
 	beginningOfWeek := calendar.Now.BeginningOfWeek()
 
@@ -49,6 +57,8 @@ func (calendar *Calendar) Week() (week Week) {
 	return
 }
 
+// NextWeek returns next Week regarding current date.
+// It doesn't have side effect.
 func (calendar *Calendar) NextWeek() (week Week) {
 	newDate := calendar.Now.AddDate(0, 0, 7)
 	calendar.Now = now.New(newDate)
@@ -60,6 +70,8 @@ func (calendar *Calendar) NextWeek() (week Week) {
 	return
 }
 
+// PreviousWeek returns previous Week regarding current date.
+// It doesn't have side effect.
 func (calendar *Calendar) PreviousWeek() (week Week) {
 	newDate := calendar.Now.AddDate(0, 0, -7)
 	calendar.Now = now.New(newDate)
@@ -71,6 +83,7 @@ func (calendar *Calendar) PreviousWeek() (week Week) {
 	return
 }
 
+// Month returns Month regarding current date.
 func (calendar *Calendar) Month() (month Month) {
 	beginningOfMonth := calendar.Now.BeginningOfMonth()
 	endOfMonth := calendar.Now.EndOfMonth()
@@ -85,6 +98,7 @@ func (calendar *Calendar) Month() (month Month) {
 	return
 }
 
+// NextMonth returns next Month regarding current date.
 func (calendar *Calendar) NextMonth() (month Month) {
 	calendar.Next()
 	defer calendar.Previous()
@@ -92,6 +106,7 @@ func (calendar *Calendar) NextMonth() (month Month) {
 	return
 }
 
+// PreviousMonth returns previous Month regarding current date.
 func (calendar *Calendar) PreviousMonth() (month Month) {
 	calendar.Previous()
 	defer calendar.Next()
@@ -99,6 +114,7 @@ func (calendar *Calendar) PreviousMonth() (month Month) {
 	return
 }
 
+// New returns new Calendar pointer.
 func New(t time.Time) *Calendar {
 	return &Calendar{
 		Now: now.New(t),
