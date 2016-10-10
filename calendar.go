@@ -46,6 +46,24 @@ func (calendar *Calendar) Previous() {
 	calendar.Now = now.New(newDate)
 }
 
+// NextCalendar returns next Calendar.
+func (calendar *Calendar) NextCalendar() (nextCalendar *Calendar) {
+	newDate := calendar.Now.BeginningOfMonth().AddDate(0, 1, 0)
+	nextCalendar = &Calendar{
+		Now: now.New(newDate),
+	}
+	return
+}
+
+// PreviousCalendar returns previous Calendar.
+func (calendar *Calendar) PreviousCalendar() (previousCalendar *Calendar) {
+	newDate := calendar.Now.BeginningOfMonth().AddDate(0, -1, 0)
+	previousCalendar = &Calendar{
+		Now: now.New(newDate),
+	}
+	return
+}
+
 // Week returns Week regarding current date.
 func (calendar *Calendar) Week() (week Week) {
 	beginningOfWeek := calendar.Now.BeginningOfWeek()
@@ -100,23 +118,12 @@ func (calendar *Calendar) Month() (month Month) {
 
 // NextMonth returns next Month regarding current date.
 func (calendar *Calendar) NextMonth() (month Month) {
-	calendar.Next()
-	defer calendar.Previous()
-	month = calendar.Month()
+	month = calendar.NextCalendar().Month()
 	return
 }
 
 // PreviousMonth returns previous Month regarding current date.
 func (calendar *Calendar) PreviousMonth() (month Month) {
-	calendar.Previous()
-	defer calendar.Next()
-	month = calendar.Month()
+	month = calendar.PreviousCalendar().Month()
 	return
-}
-
-// New returns new Calendar pointer.
-func New(t time.Time) *Calendar {
-	return &Calendar{
-		Now: now.New(t),
-	}
 }
