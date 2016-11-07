@@ -11,7 +11,7 @@ package main
 import (
     "fmt"
 
-    "github.com/yamadayuki/calendar"
+    "github.com/yamadayuki/go-calendar"
 )
 
 func main() {
