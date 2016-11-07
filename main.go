@@ -20,6 +20,11 @@ func Now() *Calendar {
 	}
 }
 
+// CurrentYear returns Now().Year()
+func CurrentYear() Year {
+	return Now().Year()
+}
+
 // CurrentMonth returns Now().Month()
 func CurrentMonth() Month {
 	return Now().Month()

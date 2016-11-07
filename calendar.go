@@ -29,6 +29,9 @@ func (week Week) Previous() (previousWeek Week) {
 // Month have Week data to represent month.
 type Month []Week
 
+// Year have Month data to represent year.
+type Year [12]Month
+
 // Calendar have now.Now data.
 type Calendar struct {
 	Now *now.Now
@@ -125,5 +128,21 @@ func (calendar *Calendar) NextMonth() (month Month) {
 // PreviousMonth returns previous Month regarding current date.
 func (calendar *Calendar) PreviousMonth() (month Month) {
 	month = calendar.PreviousCalendar().Month()
+	return
+}
+
+// Year returns Year regarding current date.
+func (calendar *Calendar) Year() (year Year) {
+	var days [12]*Calendar
+	day := calendar.Now.BeginningOfYear()
+	for i := 0; i < 12; i++ {
+		days[i] = &Calendar{
+			Now: now.New(day),
+		}
+		day = day.AddDate(0, 1, 0)
+	}
+	for i, cal := range days {
+		year[i] = cal.Month()
+	}
 	return
 }

@@ -143,6 +143,63 @@ var expectedPreviousWeekDays = Week{
 	time.Date(2016, 10, 1, 0, 0, 0, 0, time.UTC),
 }
 
+var expectedJan = Month{
+	Week{
+		time.Date(2015, 12, 27, 0, 0, 0, 0, time.UTC),
+		time.Date(2015, 12, 28, 0, 0, 0, 0, time.UTC),
+		time.Date(2015, 12, 29, 0, 0, 0, 0, time.UTC),
+		time.Date(2015, 12, 30, 0, 0, 0, 0, time.UTC),
+		time.Date(2015, 12, 31, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 1, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 2, 0, 0, 0, 0, time.UTC),
+	},
+	Week{
+		time.Date(2016, 1, 3, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 4, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 5, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 6, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 7, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 8, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 9, 0, 0, 0, 0, time.UTC),
+	},
+	Week{
+		time.Date(2016, 1, 10, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 11, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 12, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 13, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 14, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 15, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 16, 0, 0, 0, 0, time.UTC),
+	},
+	Week{
+		time.Date(2016, 1, 17, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 18, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 19, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 20, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 21, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 22, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 23, 0, 0, 0, 0, time.UTC),
+	},
+	Week{
+		time.Date(2016, 1, 24, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 25, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 26, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 27, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 28, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 29, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 1, 30, 0, 0, 0, 0, time.UTC),
+	},
+	Week{
+		time.Date(2016, 1, 31, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 2, 1, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 2, 2, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 2, 3, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 2, 4, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 2, 5, 0, 0, 0, 0, time.UTC),
+		time.Date(2016, 2, 6, 0, 0, 0, 0, time.UTC),
+	},
+}
+
 func TestNext(t *testing.T) {
 	cal := New(date)
 
@@ -239,5 +296,12 @@ func TestPreviousMonth(t *testing.T) {
 	month := New(nextMonthDate).PreviousMonth()
 	if !reflect.DeepEqual(expectedMonth, month) {
 		t.Errorf("Unexpected Calendar.PreviousMonth(),\n expected %v,\n given %v", expectedMonth, month)
+	}
+}
+
+func TestYear(t *testing.T) {
+	year := New(date).Year()
+	if !reflect.DeepEqual(expectedJan, year[0]) {
+		t.Errorf("Unexpected Calendar.Year(), \n expected %v, \n given %v", expectedJan, year[0])
 	}
 }
