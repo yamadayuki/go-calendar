@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-    calendar := calendar.CurrentMonth()
-    fmt.Println(calendar) // Print current month calendar.
+    month := calendar.CurrentMonth()
+    fmt.Println(month) // Print current month of the calendar.
 }
 ```
